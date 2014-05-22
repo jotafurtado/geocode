@@ -1,6 +1,6 @@
 {
     "name": "jcf/geocode",
-    "description": "",
+    "description": "Geocode Service for Laravel",
     "authors": [
         {
             "name": "João Carlos",

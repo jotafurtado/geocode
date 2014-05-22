@@ -1,0 +1,21 @@
+{
+    "name": "jcf/geocode",
+    "description": "",
+    "authors": [
+        {
+            "name": "João Carlos",
+            "email": "jotacfurtado@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.1.*",
+        "guzzlehttp/guzzle": "4.0.2"
+    },
+    "autoload": {
+        "psr-0": {
+            "Jcf\\Geocode": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

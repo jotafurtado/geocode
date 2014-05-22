@@ -21,6 +21,7 @@ Then run a composer update
 php composer.phar update
 ```
 
+
 After updating composer, add the ServiceProvider to the providers array in app/config/app.php
 
 ```php
@@ -30,15 +31,15 @@ After updating composer, add the ServiceProvider to the providers array in app/c
 ## Usage
 
 ```php
-	$address = Geocode::make()->address('1 Infinite Loop');
-	if($address){
-		echo $address->latitude();
-		echo $address->longitude();
-		echo $address->formatted();
-	}
+$address = Geocode::make()->address('1 Infinite Loop');
+if($address){
+	echo $address->latitude();
+	echo $address->longitude();
+	echo $address->formatted();
+}
 
-//Output
-37.331741
--122.0303329
-1 Infinite Loop, Cupertino, CA 95014, USA
+// Output
+// 37.331741
+// -122.0303329
+// 1 Infinite Loop, Cupertino, CA 95014, USA
 ```

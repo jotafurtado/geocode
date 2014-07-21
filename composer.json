@@ -1,6 +1,6 @@
 {
     "name": "jcf/geocode",
-    "description": "A simple Laravel 4 service provider for Google Geocode API.",
+    "description": "Google Geocoding API for Laravel 4",
     "keywords": ["laravel", "google", "geocode", "geocoding", "address", "latitude", "longitude", "api"],
     "license": "MIT",
     "authors": [

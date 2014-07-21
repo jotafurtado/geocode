@@ -1,8 +1,9 @@
-# Google Geocoding Service Provider for Laravel 4
+# Google Geocoding API for Laravel 4
 
 [![Latest Stable Version](https://poser.pugx.org/jcf/geocode/v/stable.svg)](https://packagist.org/packages/jcf/geocode) [![Total Downloads](https://poser.pugx.org/jcf/geocode/downloads.svg)](https://packagist.org/packages/jcf/geocode) [![License](https://poser.pugx.org/jcf/geocode/license.svg)](https://packagist.org/packages/jcf/geocode)
 
 A simple [Laravel 4](http://four.laravel.com/) service provider for Google Geocoding API.
+
 ## Installation
 
 This package can be installed via [Composer](http://getcomposer.org) by requiring the

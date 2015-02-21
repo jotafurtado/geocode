@@ -1,5 +1,5 @@
 {
-    "name": "jcf/geocode",
+    "name": "hfucek/geocode",
     "description": "Google Geocoding API for Laravel 4",
     "keywords": ["laravel", "google", "geocode", "geocoding", "address", "latitude", "longitude", "api"],
     "license": "MIT",

@@ -1,8 +1,8 @@
-# Google Geocoding API for Laravel 4
+# Google Geocoding API for Laravel
 
 [![Latest Stable Version](https://poser.pugx.org/jcf/geocode/v/stable.svg)](https://packagist.org/packages/jcf/geocode) [![Total Downloads](https://poser.pugx.org/jcf/geocode/downloads.svg)](https://packagist.org/packages/jcf/geocode) [![License](https://poser.pugx.org/jcf/geocode/license.svg)](https://packagist.org/packages/jcf/geocode)
 
-A simple [Laravel 4](http://four.laravel.com/) service provider for Google Geocoding API.
+A simple [Laravel](http://laravel.com/) service provider for Google Geocoding API.
 
 ## Installation
 
@@ -22,6 +22,8 @@ Then run a composer update
 php composer.phar update
 ```
 
+### Laravel 4
+
 After updating composer, add the ServiceProvider to the providers array in app/config/app.php
 
 ```php
@@ -31,6 +33,19 @@ Add then alias Geocode adding its facade to the aliases array in the same file :
 
 ```php
 'Geocode' => 'Jcf\Geocode\Facades\Geocode'
+```
+
+### Laravel 5
+
+After updating composer, add the ServiceProvider to the providers array in app/config/app.php
+
+```php
+Jcf\Geocode\GeocodeServiceProvider::class,
+```
+Add then alias Geocode adding its facade to the aliases array in the same file :
+
+```php
+'Geocode' => Jcf\Geocode\Facades\Geocode::class,
 ```
 
 ## Usage

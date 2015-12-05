@@ -1,7 +1,7 @@
 <?php 
 namespace Jcf\Geocode;
 
-use \GuzzleHttp\Client;
+use GuzzleHttp\Client;
 
 class Geocode
 {

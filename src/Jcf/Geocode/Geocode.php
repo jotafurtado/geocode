@@ -17,14 +17,13 @@ class Geocode
         if (empty($address)) {
             throw new Exceptions\EmptyArgumentsException('Empty arguments.');
         }
-	$client = new \GuzzleHttp\Client();
-	$response = $client->request('GET', 'http://maps.googleapis.com/maps/api/geocode/json', [
-	    'query' => ['address' => $address]
-	]);
-	$response = $response->getBody();
-        
+		$client = new \GuzzleHttp\Client();
+		$response = json_decode($client->request('GET', 'http://maps.googleapis.com/maps/api/geocode/json', [
+		    'query' => ['address' => $address]
+		])->getBody());
+
         # check for status in the response
-		switch( $response->json()['status'] )
+		switch( $response->status )
 		{
 			
 			case "ZERO_RESULTS": # indicates that the geocode was successful but returned no results. This may occur if the geocoder was passed a non-existent address.
@@ -35,7 +34,7 @@ class Geocode
 				return false;
 				
 			case "OK": # indicates that no errors occurred; the address was successfully parsed and at least one geocode was returned.
-				return new Response($response->json());
+				return new Response($response);
 		}
 
     }
@@ -52,7 +51,7 @@ class Geocode
 		]);
         
         # check for status in the response
-		switch( $response->json()['status'] )
+		switch( $response->status )
 		{
 			
 			case "ZERO_RESULTS": # indicates that the geocode was successful but returned no results. This may occur if the geocoder was passed a non-existent address.
@@ -63,7 +62,7 @@ class Geocode
 				return false;
 				
 			case "OK": # indicates that no errors occurred; the address was successfully parsed and at least one geocode was returned.
-				return new Response($response->json());
+				return new Response($response);
 		}
 
     }

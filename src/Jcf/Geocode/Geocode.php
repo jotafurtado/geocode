@@ -1,7 +1,7 @@
 <?php 
 namespace Jcf\Geocode;
 
-use GuzzleHttp\Client;
+use \GuzzleHttp\Client;
 
 class Geocode
 {
@@ -17,7 +17,7 @@ class Geocode
         if (empty($address)) {
             throw new Exceptions\EmptyArgumentsException('Empty arguments.');
         }
-	$client = new GuzzleHttp\Client();
+	$client = new \GuzzleHttp\Client();
 	$response = $client->request('GET', 'http://maps.googleapis.com/maps/api/geocode/json', [
 	    'query' => ['address' => $address]
 	]);

@@ -17,10 +17,10 @@ class Geocode
         if (empty($address)) {
             throw new Exceptions\EmptyArgumentsException('Empty arguments.');
         }
-
-        $response = \GuzzleHttp\get('http://maps.googleapis.com/maps/api/geocode/json', [
-            'query' => ['address' => $address]
-        ]);
+	$client = new GuzzleHttp\Client();
+	$response = $client->request('GET', 'http://maps.googleapis.com/maps/api/geocode/json', [
+	    'query' => ['address' => $address]
+	]);
         
         # check for status in the response
 		switch( $response->json()['status'] )

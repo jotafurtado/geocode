@@ -5,7 +5,7 @@ class Response
 {
 	public function __construct($response)
 	{
-		$this->response = $response['results'][0];
+		$this->response = $response->results[0];
 	}
 
 	public function raw()
@@ -15,21 +15,21 @@ class Response
 
 	public function formattedAddress()
 	{
-		return $this->response['formatted_address'];
+		return $this->response->formatted_address;
 	}
 
 	public function latitude()
 	{
-		return $this->response['geometry']['location']['lat'];
+		return $this->response->geometry->location->lat;
 	}
 
 	public function longitude()
 	{
-		return $this->response['geometry']['location']['lng'];
+		return $this->response->geometry->location->lng;
 	}
 
 	public function locationType()
 	{
-		return $this->response['geometry']['location_type'];
+		return $this->response->geometry->location_type;
 	}
 }

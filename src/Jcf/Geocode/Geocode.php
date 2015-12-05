@@ -21,6 +21,7 @@ class Geocode
 	$response = $client->request('GET', 'http://maps.googleapis.com/maps/api/geocode/json', [
 	    'query' => ['address' => $address]
 	]);
+	$response = $response->getBody();
         
         # check for status in the response
 		switch( $response->json()['status'] )

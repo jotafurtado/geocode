@@ -18,7 +18,7 @@ class Geocode
             throw new Exceptions\EmptyArgumentsException('Empty arguments.');
         }
 		$client = new \GuzzleHttp\Client();
-		$response = json_decode($client->request('GET', 'http://maps.googleapis.com/maps/api/geocode/json', [
+		$response = json_decode($client->get('http://maps.googleapis.com/maps/api/geocode/json', [
 		    'query' => ['address' => $address]
 		])->getBody());
 

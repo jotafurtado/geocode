@@ -8,7 +8,6 @@
             "name": "João Carlos",
             "email": "jotacfurtado@gmail.com"
         }
-
     ],
     "require": {
         "php": ">=5.4.0",

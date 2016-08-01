@@ -5,23 +5,44 @@ use \GuzzleHttp\Client;
 
 class Geocode
 {
+    
+	////////////////////
+	// Static methods //
+	////////////////////
 
-    public static function make()
-    {
-        return new static();
+    protected static $GoogleApiKey = null;
+    public static function make($apiKey = null) {
+        return new static(!is_null($apiKey) ? $apiKey : static::$GoogleApiKey);
+    }
+    
+    public static function setApiKey($apiKey) {
+    	static::$GoogleApiKey = $apiKey;    	
     }
 
-    public function address($address)
-    {
+
+    /////////////////
+    // Constructor //
+    /////////////////
+
+    protected $apiKey;
+    public function __construct($apiKey = null) {
+    	$this->setApiKey = $apiKey;
+    }
+
+
+    ////////////////////
+    // Public methods //
+    ////////////////////
+
+    public function address($address) {
 
         if (empty($address)) {
             throw new Exceptions\EmptyArgumentsException('Empty arguments.');
         }
-		$client = new \GuzzleHttp\Client();
-		$response = json_decode($client->get('http://maps.googleapis.com/maps/api/geocode/json', [
+		$response = json_decode(\GuzzleHttp\get('http://maps.googleapis.com/maps/api/geocode/json', $this->requestParams([
 		    'query' => ['address' => $address]
-		])->getBody());
-
+		]))->getBody());
+		
         # check for status in the response
 		switch( $response->status )
 		{
@@ -39,16 +60,16 @@ class Geocode
 
     }
 
-    public function latLng($lat, $lng)
-    {
+    public function latLng($lat, $lng) {
 
     	if (empty($lat) || empty($lng)) {
     		throw new Exceptions\EmptyArgumentsException('Empty arguments.');
     	}
 
-        $response = \GuzzleHttp\get('http://maps.googleapis.com/maps/api/geocode/json', [
-            'query' => ['latlng' => $lat . ',' . $lng]
-		]);
+    	$response = json_decode(\GuzzleHttp\get('http://maps.googleapis.com/maps/api/geocode/json', $this->requestParams([
+		    'query' => ['latlng' => $lat . ',' . $lng]
+		]))->getBody());
+        dd($response);
         
         # check for status in the response
 		switch( $response->status )
@@ -64,6 +85,21 @@ class Geocode
 			case "OK": # indicates that no errors occurred; the address was successfully parsed and at least one geocode was returned.
 				return new Response($response);
 		}
+
+    }
+
+
+    /////////////////////////////
+    // Internal helper methods //
+    /////////////////////////////
+
+    protected function requestParams($options = []) {
+
+    	// Api key?
+    	if (!is_null($this->apiKey)) {
+    		$options['api_key'] = $this->apiKey;
+    	}
+    	return $options;
 
     }
 

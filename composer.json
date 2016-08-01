@@ -1,5 +1,5 @@
 {
-    "name": "jcf/geocode",
+    "name": "rseyferth/geocode",
     "description": "Google Geocoding API for Laravel 4",
     "keywords": ["laravel", "google", "geocode", "geocoding", "address", "latitude", "longitude", "api"],
     "license": "MIT",
@@ -7,7 +7,12 @@
         {
             "name": "João Carlos",
             "email": "jotacfurtado@gmail.com"
+        },
+        {
+            "name": "Ruben Seyferth",
+            "email": "ruben.seyferth@gmail.com"
         }
+
     ],
     "require": {
         "php": ">=5.4.0",

@@ -11,6 +11,22 @@ class GeocodeServiceProvider extends ServiceProvider {
 	 */
 	protected $defer = false;
 
+        /**
+         * Bootstrap the configuration
+         *
+         * @return void
+         */
+        public function boot()
+        {
+            $source = dirname(__DIR__).'/../../config/geocode.php';
+            if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
+                $this->publishes([$source => config_path('geocode.php')]);
+            } elseif ($this->app instanceof LumenApplication) {
+                $this->app->configure('geocode');
+            }
+            $this->mergeConfigFrom($source, 'geocode');
+        }
+
 	/**
 	 * Register the service provider.
 	 *

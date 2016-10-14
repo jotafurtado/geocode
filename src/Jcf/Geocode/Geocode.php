@@ -2,9 +2,17 @@
 namespace Jcf\Geocode;
 
 use \GuzzleHttp\Client;
+use Config;
 
 class Geocode
 {
+    protected $apiKey;
+
+    public function __construct()
+    {
+        $config = Config::get('geocode');
+        $this->apiKey = $config['apikey'];
+    }
 
     public static function make()
     {
@@ -17,9 +25,13 @@ class Geocode
         if (empty($address)) {
             throw new Exceptions\EmptyArgumentsException('Empty arguments.');
         }
-		$client = new \GuzzleHttp\Client();
-		$response = json_decode($client->get('http://maps.googleapis.com/maps/api/geocode/json', [
-		    'query' => ['address' => $address]
+                $client = new \GuzzleHttp\Client();
+                $params = ['address' => $address];
+                if (!empty($this->apiKey)) {
+                    $params['key'] = $this->apiKey;
+                }
+		$response = json_decode($client->get('https://maps.googleapis.com/maps/api/geocode/json', [
+		    'query' => $params
 		])->getBody());
 
         # check for status in the response
@@ -46,10 +58,16 @@ class Geocode
     		throw new Exceptions\EmptyArgumentsException('Empty arguments.');
     	}
 
-        $response = \GuzzleHttp\get('http://maps.googleapis.com/maps/api/geocode/json', [
-            'query' => ['latlng' => $lat . ',' . $lng]
-		]);
-        
+        $params = ['latlng' => $lat . ',' . $lng];
+        if (!empty($this->apiKey)) {
+            $params['key'] = $this->apiKey;
+        }
+
+        $client = new \GuzzleHttp\Client();
+        $response = json_decode($client->get('https://maps.googleapis.com/maps/api/geocode/json', [
+            'query' => $params
+        ])->getBody());
+
         # check for status in the response
 		switch( $response->status )
 		{

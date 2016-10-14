@@ -12,7 +12,7 @@ This package can be installed via [Composer](http://getcomposer.org) by requirin
 ```json
 {
     "require": {
-        "jcf/geocode": "1.0.*"
+        "jcf/geocode": "1.1.*"
     }
 }
 ```

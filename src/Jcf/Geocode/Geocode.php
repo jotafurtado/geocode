@@ -10,8 +10,7 @@ class Geocode
 
     public function __construct()
     {
-        $config = Config::get('geocode');
-        $this->apiKey = $config['apikey'];
+        $this->apiKey = config('geocode.apikey');
     }
 
     public static function make()

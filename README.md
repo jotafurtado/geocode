@@ -70,10 +70,6 @@ You can optionally set the response language.
 GEOCODE_GOOGLE_LANGUAGE=en # es, de, hu, it, fr
 ```
 
-```php
-$app->register(Jcf\Geocode\GeocodeServiceProvider::class);
-```
-
 ## Usage
 You can find data from addresses:
 ```php

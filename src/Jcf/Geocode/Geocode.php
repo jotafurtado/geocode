@@ -7,10 +7,12 @@ use Config;
 class Geocode
 {
     protected $apiKey;
+    protected $language;
 
     public function __construct()
     {
         $this->apiKey = config('geocode.apikey');
+        $this->language = config('geocode.language');
     }
 
     public static function make()
@@ -24,11 +26,14 @@ class Geocode
         if (empty($address)) {
             throw new Exceptions\EmptyArgumentsException('Empty arguments.');
         }
-                $client = new \GuzzleHttp\Client();
-                $params = ['address' => $address];
-                if (!empty($this->apiKey)) {
-                    $params['key'] = $this->apiKey;
-                }
+        $client = new \GuzzleHttp\Client();
+        $params = ['address' => $address];
+        if (!empty($this->apiKey)) {
+            $params['key'] = $this->apiKey;
+        }
+        if (!empty($this->language)) {
+            $params['language'] = $this->language;
+        }
 		$response = json_decode($client->get('https://maps.googleapis.com/maps/api/geocode/json', [
 		    'query' => $params
 		])->getBody());
@@ -60,6 +65,9 @@ class Geocode
         $params = ['latlng' => $lat . ',' . $lng];
         if (!empty($this->apiKey)) {
             $params['key'] = $this->apiKey;
+        }
+        if (!empty($this->language)) {
+            $params['language'] = $this->language;
         }
 
         $client = new \GuzzleHttp\Client();

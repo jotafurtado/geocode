@@ -48,6 +48,32 @@ Add then alias Geocode adding its facade to the aliases array in the same file :
 'Geocode' => Jcf\Geocode\Facades\Geocode::class,
 ```
 
+### Lumen 5
+
+After updating composer, register the ServiceProvider in bootstrap/app.php
+
+```php
+$app->register(Jcf\Geocode\GeocodeServiceProvider::class);
+```
+
+## Configuration
+
+Add the following line to the .env file:
+
+```sh
+GEOCODE_GOOGLE_APIKEY=<your_google_api_key>
+```
+
+You can optionally set the response language.
+
+```sh
+GEOCODE_GOOGLE_LANGUAGE=en # es, de, hu, it, fr
+```
+
+```php
+$app->register(Jcf\Geocode\GeocodeServiceProvider::class);
+```
+
 ## Usage
 You can find data from addresses:
 ```php

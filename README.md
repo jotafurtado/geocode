@@ -56,6 +56,13 @@ After updating composer, register the ServiceProvider in bootstrap/app.php
 $app->register(Jcf\Geocode\GeocodeServiceProvider::class);
 ```
 
+Since facade are not enabled by default on Lumen, don't forget to add this.
+
+```php
+use Jcf\Geocode\Geocode;
+
+```
+
 ## Configuration
 
 Add the following line to the .env file:

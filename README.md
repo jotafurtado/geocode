@@ -68,7 +68,11 @@ You can optionally set the response language.
 
 ```sh
 GEOCODE_GOOGLE_LANGUAGE=en # es, de, hu, it, fr
+
 ```
+
+[Supported Languages](https://developers.google.com/maps/faq?hl=pt-br#languagesupport) for Google Maps Geocoding API.
+
 
 ## Usage
 You can find data from addresses:

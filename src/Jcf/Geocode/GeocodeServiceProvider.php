@@ -34,18 +34,18 @@ class GeocodeServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-        $this->app['geocode'] = $this->app->share(function($app)
-        {
-            return new \Jcf\Geocode\Geocode;
-        });
+	    $this->app->singleton('geocode',function($app)
+	    {
+	        return new \Jcf\Geocode\Geocode;
+	    });
 
-        if ($this->app instanceof LaravelApplication) {
-            $this->app->booting(function ()
-            {
-                $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-                $loader->alias('Geocode', 'Jcf\Geocode\Facades\Geocode');
-            });
-        }
+	    if ($this->app instanceof LaravelApplication) {
+	        $this->app->booting(function ()
+	        {
+		    $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+		    $loader->alias('Geocode', 'Jcf\Geocode\Facades\Geocode');
+	        });
+	    }
 	}
 
 	/**

@@ -32,4 +32,15 @@ class Response
 	{
 		return $this->response->geometry->location_type;
 	}
+	
+	public function postalCode()
+    	{
+		foreach ($this->response->address_components as $component) {
+		    if (isset($component->types) && in_array('postal_code', $component->types)) {
+			return $component->long_name;
+		    }
+		}
+
+        	return false;
+    	}
 }

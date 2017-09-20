@@ -6,42 +6,21 @@ A simple [Laravel](http://laravel.com/) service provider for Google Geocoding AP
 
 ## Installation
 
-This package can be installed via [Composer](http://getcomposer.org) by requiring the
-`jcf/geocode` package in your project's `composer.json`.
+This package can be installed via [Composer](http://getcomposer.org).
 
-```json
-{
-    "require": {
-        "jcf/geocode": "1.2.*"
-    }
-}
-```
+Run composer require command.
 
-Then run a composer update
 ```sh
-php composer.phar update
+composer require "jcf/geocode":"~1.3"
 ```
 
-### Laravel 4
-
-After updating composer, add the ServiceProvider to the providers array in app/config/app.php
-
-```php
-'Jcf\Geocode\GeocodeServiceProvider',
-```
-Add then alias Geocode adding its facade to the aliases array in the same file :
-
-```php
-'Geocode' => 'Jcf\Geocode\Facades\Geocode'
-```
-
-### Laravel 5.5+
+### Laravel 5.5
 
 Both the service provider and alias will be automatically installed by Laravel 5.5 package discovery. If you don't use auto discovery, follow the instructions for Laravel 5.0-5.4 below:
 
 ### Laravel 5.0-5.4
 
-After updating composer, add the ServiceProvider to the providers array in app/config/app.php
+After updating composer, add the service provider to the providers array in app/config/app.php
 
 ```php
 Jcf\Geocode\GeocodeServiceProvider::class,
@@ -52,9 +31,22 @@ Add then alias Geocode adding its facade to the aliases array in the same file :
 'Geocode' => Jcf\Geocode\Facades\Geocode::class,
 ```
 
+### Laravel 4
+
+After updating composer, add the service provider to the providers array in app/config/app.php
+
+```php
+'Jcf\Geocode\GeocodeServiceProvider',
+```
+Add then alias Geocode adding its facade to the aliases array in the same file :
+
+```php
+'Geocode' => 'Jcf\Geocode\Facades\Geocode'
+```
+
 ### Lumen 5
 
-After updating composer, register the ServiceProvider in bootstrap/app.php
+After updating composer, register the service provider in bootstrap/app.php
 
 ```php
 $app->register(Jcf\Geocode\GeocodeServiceProvider::class);
@@ -78,11 +70,11 @@ GEOCODE_GOOGLE_APIKEY=<your_google_api_key>
 You can optionally set the response language.
 
 ```sh
-GEOCODE_GOOGLE_LANGUAGE=en # es, de, hu, it, fr
+GEOCODE_GOOGLE_LANGUAGE=en # pt-BR, es, de, it, fr, en-GB
 
 ```
 
-[Supported Languages](https://developers.google.com/maps/faq?hl=pt-br#languagesupport) for Google Maps Geocoding API.
+[Supported Languages](https://developers.google.com/maps/faq?hl=en#languagesupport) for Google Maps Geocoding API.
 
 
 ## Usage

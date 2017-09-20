@@ -35,7 +35,11 @@ Add then alias Geocode adding its facade to the aliases array in the same file :
 'Geocode' => 'Jcf\Geocode\Facades\Geocode'
 ```
 
-### Laravel 5
+### Laravel 5.5+
+
+Both the service provider and alias will be automatically installed by Laravel 5.5 package discovery. If you don't use auto discovery, follow the instructions for Laravel 5.0-5.4 below:
+
+### Laravel 5.0-5.4
 
 After updating composer, add the ServiceProvider to the providers array in app/config/app.php
 

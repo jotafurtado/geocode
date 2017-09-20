@@ -18,5 +18,15 @@
             "Jcf\\Geocode": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Jcf\\Geocode\\GeocodeServiceProvider"
+            ],
+            "aliases": {
+                "Geocode": "Jcf\\Geocode\\Facades\\Geocode"
+            }
+        }
+    }
 }

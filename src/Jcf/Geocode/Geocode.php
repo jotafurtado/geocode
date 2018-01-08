@@ -20,14 +20,14 @@ class Geocode
         return new static();
     }
 
-    public function address($address)
+    public function address($address, $params = [])
     {
 
         if (empty($address)) {
             throw new Exceptions\EmptyArgumentsException('Empty arguments.');
         }
         $client = new \GuzzleHttp\Client();
-        $params = ['address' => $address];
+        $params = array_merge($params, ['address' => $address]);
         if (!empty($this->apiKey)) {
             $params['key'] = $this->apiKey;
         }

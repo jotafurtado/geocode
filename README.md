@@ -83,10 +83,10 @@ You can find data from addresses:
 $response = Geocode::make()->address('1 Infinite Loop');
 
 if ($response) {
-	echo $response->latitude();
-	echo $response->longitude();
-	echo $response->formattedAddress();
-	echo $response->locationType();
+	echo $response->latitude;
+	echo $response->longitude;
+	echo $response->formattedAddress;
+	echo $response->locationType;
 }
 
 // Output
@@ -101,10 +101,10 @@ Or from latitude/longitude:
 ```php
 $response = Geocode::make()->latLng(40.7637931,-73.9722014);
 if ($response) {
-	echo $response->latitude();
-	echo $response->longitude();
-	echo $response->formattedAddress();
-	echo $response->locationType();
+	echo $response->latitude;
+	echo $response->longitude;
+	echo $response->formattedAddress;
+	echo $response->locationType;
 }
 
 // Output

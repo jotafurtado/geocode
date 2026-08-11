@@ -78,16 +78,23 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip
           coverage: none
 
+      # --no-security-blocking: EOL Laravel (8–10, and sometimes 11) still has
+      # Packagist advisories. We install them only to prove compatibility; they
+      # are not a production dependency of this package.
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update --no-security-blocking
+          composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-security-blocking \
+            || composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-security-blocking
 
       - name: Run tests
         run: vendor/bin/phpunit
 
+      # Gate security only on current Laravel — EOL matrix cells exist for
+      # compatibility, not as a security claim about those frameworks.
       - name: Composer audit
-        run: composer audit
+        if: matrix.laravel == '^12.0'
+        run: composer audit --no-dev
 
       - name: Pint
         if: matrix.php != '8.0' && matrix.php != '8.1' && matrix.stability == 'prefer-stable'

@@ -1,0 +1,3 @@
+# Use the Laravel Http facade; drop the direct Guzzle dependency
+
+The package constrained Guzzle to `~5.3|~6.0`, which triggered 14 open Dependabot advisories; the 5.x line is EOL with no fix. In 2.0 we perform HTTP via Laravel's `Http` facade (`illuminate/http`) and remove the direct `guzzlehttp/guzzle` constraint, so the framework manages the Guzzle version (always patched) and the advisories resolve structurally rather than by us chasing Guzzle releases. This couples the core to Laravel — acceptable, since this is a Laravel package. The 1.5.0 legacy line keeps direct Guzzle `^6.5.8`, because the `Http` facade only exists from Laravel 7.

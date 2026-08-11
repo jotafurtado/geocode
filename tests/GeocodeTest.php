@@ -4,6 +4,7 @@ namespace Jcf\Geocode\Tests;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
+use Jcf\Geocode\Exceptions\EmptyArgumentsException;
 use Jcf\Geocode\Exceptions\GeocodingFailedException;
 use Jcf\Geocode\Facades\Geocode;
 use Jcf\Geocode\GeocodeServiceProvider;
@@ -159,5 +160,56 @@ class GeocodeTest extends TestCase
         $this->expectException(GeocodingFailedException::class);
 
         Geocode::address('1 Infinite Loop');
+    }
+
+    public function test_address_forwards_custom_params_and_config(): void
+    {
+        Http::fake([
+            'maps.googleapis.com/*' => Http::response([
+                'status' => 'OK',
+                'results' => [[
+                    'formatted_address' => '1 Infinite Loop, Cupertino, CA 95014, USA',
+                    'geometry' => [
+                        'location' => ['lat' => 37.331741, 'lng' => -122.0303329],
+                        'location_type' => 'ROOFTOP',
+                    ],
+                    'address_components' => [],
+                ]],
+            ], 200),
+        ]);
+
+        $result = Geocode::address('1 Infinite Loop', ['components' => 'country:US']);
+
+        $this->assertInstanceOf(Result::class, $result);
+
+        Http::assertSent(function ($request) {
+            return str_contains($request->url(), 'maps.googleapis.com/maps/api/geocode/json')
+                && $request['address'] === '1 Infinite Loop'
+                && $request['components'] === 'country:US'
+                && $request['key'] === 'test-key'
+                && $request['language'] === 'en';
+        });
+    }
+
+    public function test_empty_address_throws_empty_arguments_exception(): void
+    {
+        $this->expectException(EmptyArgumentsException::class);
+
+        Geocode::address('');
+    }
+
+    public function test_http_failures_are_retried_before_throwing(): void
+    {
+        Http::fake([
+            'maps.googleapis.com/*' => Http::response(['error' => 'boom'], 500),
+        ]);
+
+        try {
+            Geocode::address('1 Infinite Loop');
+            $this->fail('Expected GeocodingFailedException');
+        } catch (GeocodingFailedException $exception) {
+            // Http::retry(2, ...) = two attempts total
+            Http::assertSentCount(2);
+        }
     }
 }

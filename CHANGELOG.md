@@ -10,11 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0-beta1] - 2026-08-11
 
 ### Added
-- Laravel 8–12 support via `illuminate/http` and `illuminate/support`.
+- Laravel 9–12 support (raised from L8 after Spatie illuminate ^9.28+ conflict) via `illuminate/http` and `illuminate/support`.
 - `Result` value object with property access (`latitude`, `longitude`, `formattedAddress`, `locationType`, `postalCode`, `raw`), incorporating the approach from PR #17 by @Niellles.
 - `GeocodingFailedException` for real HTTP/network failures.
 - orchestra/testbench test suite with `Http::fake` coverage for geocoding, reverse geocoding, Place ID lookup, and the null/throw error model.
-- GitHub Actions CI matrix (Laravel 8–12 × compatible PHP, prefer-lowest/prefer-stable, `composer audit`, Pint).
+- GitHub Actions CI matrix (Laravel 9–12 × compatible PHP, prefer-lowest/prefer-stable, `composer audit`, Pint).
 - `UPGRADING.md` for the 1.x → 2.0 migration.
 
 ### Changed

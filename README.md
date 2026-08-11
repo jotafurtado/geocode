@@ -7,7 +7,7 @@
 
 A simple Laravel service provider for the Google Maps Geocoding API.
 
-**2.x** supports **Laravel 8–12** (PHP 8.0+). For legacy Laravel 4–7, use **1.5.0** (final 1.x security release).
+**2.x** supports **Laravel 9–12** (PHP 8.0+). For legacy Laravel 4–8, use **1.5.0** (final 1.x security release).
 
 ## Installation
 

@@ -1,5 +1,5 @@
-# One 2.0 release supporting Laravel 8 through 12
+# One 2.0 release supporting Laravel 9 through 12
 
-We ship a single 2.0 with broad constraints (`illuminate/*: ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0`, `php: ^8.0`) instead of splitting per Laravel generation. The `Http` facade and the `ServiceProvider`/`Facade` base classes are stable across L8–L12, so one codebase suffices; the CI matrix (L8–12 × PHP) validates it.
+We ship a single 2.0 with broad constraints (`illuminate/*: ^9.0 || ^10.0 || ^11.0 || ^12.0`, `php: ^8.0`) instead of splitting per Laravel generation. The `Http` facade and the `ServiceProvider`/`Facade` base classes are stable across that range, and `spatie/laravel-package-tools` requires `illuminate/contracts` ^9.28+, which rules out Laravel 8. The CI matrix (L9–12 × PHP) validates the release.
 
-Considered: a 2.0 (L8–10) + 3.0 (L11+) split — rejected as premature double-maintenance for a thin wrapper. We split only if a real incompatibility surfaces in CI.
+Considered: including Laravel 8 (rejected — incompatible with the chosen Spatie provider tooling without dropping Spatie); a 2.0 (L9–10) + 3.0 (L11+) split — rejected as premature double-maintenance for a thin wrapper. We split only if a real incompatibility surfaces in CI.

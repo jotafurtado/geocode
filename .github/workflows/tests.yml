@@ -16,14 +16,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - laravel: '^8.83'
-            testbench: '^6.28'
-            php: '8.0'
-            stability: prefer-stable
-          - laravel: '^8.83'
-            testbench: '^6.28'
-            php: '8.1'
-            stability: prefer-stable
           - laravel: '^9.52'
             testbench: '^7.40'
             php: '8.0'
@@ -78,9 +70,9 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip
           coverage: none
 
-      # --no-security-blocking: EOL Laravel (8–10, and sometimes 11) still has
-      # Packagist advisories. We install them only to prove compatibility; they
-      # are not a production dependency of this package.
+      # --no-security-blocking: EOL Laravel still carries Packagist advisories.
+      # We install those versions only to prove compatibility.
+      # guzzle is required-dev so Http::fake has GuzzleHttp\Psr7\Response.
       - name: Install dependencies
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update --no-security-blocking
@@ -90,10 +82,10 @@ jobs:
       - name: Run tests
         run: vendor/bin/phpunit
 
-      # Gate security only on current Laravel — EOL matrix cells exist for
-      # compatibility, not as a security claim about those frameworks.
+      # Gate security on current Laravel + prefer-stable only.
+      # prefer-lowest intentionally resolves old transitive deps with advisories.
       - name: Composer audit
-        if: matrix.laravel == '^12.0'
+        if: matrix.laravel == '^12.0' && matrix.stability == 'prefer-stable'
         run: composer audit --no-dev
 
       - name: Pint

@@ -1,5 +1,6 @@
 <?php
+
 return [
-    'apikey' => env('GEOCODE_GOOGLE_APIKEY', ''),
-    'language' => env('GEOCODE_GOOGLE_LANGUAGE', 'en'),
+    'api_key' => env('GEOCODE_API_KEY', ''),
+    'language' => env('GEOCODE_LANGUAGE', 'en'),
 ];

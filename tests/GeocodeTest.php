@@ -2,7 +2,9 @@
 
 namespace Jcf\Geocode\Tests;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
+use Jcf\Geocode\Exceptions\GeocodingFailedException;
 use Jcf\Geocode\Facades\Geocode;
 use Jcf\Geocode\GeocodeServiceProvider;
 use Jcf\Geocode\Result;
@@ -143,7 +145,7 @@ class GeocodeTest extends TestCase
             'maps.googleapis.com/*' => Http::response(['error' => 'boom'], 500),
         ]);
 
-        $this->expectException(\Jcf\Geocode\Exceptions\GeocodingFailedException::class);
+        $this->expectException(GeocodingFailedException::class);
 
         Geocode::address('1 Infinite Loop');
     }
@@ -151,10 +153,10 @@ class GeocodeTest extends TestCase
     public function test_connection_failure_throws_geocoding_failed_exception(): void
     {
         Http::fake(function () {
-            throw new \Illuminate\Http\Client\ConnectionException('Connection timed out');
+            throw new ConnectionException('Connection timed out');
         });
 
-        $this->expectException(\Jcf\Geocode\Exceptions\GeocodingFailedException::class);
+        $this->expectException(GeocodingFailedException::class);
 
         Geocode::address('1 Infinite Loop');
     }

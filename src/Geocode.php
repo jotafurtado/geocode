@@ -3,6 +3,7 @@
 namespace Jcf\Geocode;
 
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Jcf\Geocode\Exceptions\EmptyArgumentsException;
 use Jcf\Geocode\Exceptions\GeocodingFailedException;
@@ -60,7 +61,7 @@ class Geocode
             $response = Http::timeout(10)
                 ->retry(2, 100)
                 ->get('https://maps.googleapis.com/maps/api/geocode/json', $params);
-        } catch (ConnectionException $exception) {
+        } catch (ConnectionException|RequestException $exception) {
             throw new GeocodingFailedException($exception->getMessage(), 0, $exception);
         }
 

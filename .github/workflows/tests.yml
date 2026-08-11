@@ -1,0 +1,94 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - master
+      - 2.x
+      - 'release/**'
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - laravel: '^8.83'
+            testbench: '^6.28'
+            php: '8.0'
+            stability: prefer-stable
+          - laravel: '^8.83'
+            testbench: '^6.28'
+            php: '8.1'
+            stability: prefer-stable
+          - laravel: '^9.52'
+            testbench: '^7.40'
+            php: '8.0'
+            stability: prefer-stable
+          - laravel: '^9.52'
+            testbench: '^7.40'
+            php: '8.2'
+            stability: prefer-stable
+          - laravel: '^10.48'
+            testbench: '^8.23'
+            php: '8.1'
+            stability: prefer-stable
+          - laravel: '^10.48'
+            testbench: '^8.23'
+            php: '8.3'
+            stability: prefer-stable
+          - laravel: '^11.31'
+            testbench: '^9.5'
+            php: '8.2'
+            stability: prefer-stable
+          - laravel: '^11.31'
+            testbench: '^9.5'
+            php: '8.3'
+            stability: prefer-stable
+          - laravel: '^12.0'
+            testbench: '^10.0'
+            php: '8.2'
+            stability: prefer-stable
+          - laravel: '^12.0'
+            testbench: '^10.0'
+            php: '8.3'
+            stability: prefer-stable
+          - laravel: '^12.0'
+            testbench: '^10.0'
+            php: '8.4'
+            stability: prefer-stable
+          - laravel: '^12.0'
+            testbench: '^10.0'
+            php: '8.3'
+            stability: prefer-lowest
+
+    name: L${{ matrix.laravel }} / PHP ${{ matrix.php }} / ${{ matrix.stability }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+
+      - name: Run tests
+        run: vendor/bin/phpunit
+
+      - name: Composer audit
+        run: composer audit
+
+      - name: Pint
+        if: matrix.php != '8.0' && matrix.php != '8.1' && matrix.stability == 'prefer-stable'
+        run: vendor/bin/pint --test

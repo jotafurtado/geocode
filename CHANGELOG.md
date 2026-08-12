@@ -7,16 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-08-11
+
+### Added
+
+- **Rich `Result` DTO:** `placeId`, `types`, `viewport`, `bounds`, `partialMatch`, and `plusCode` when present in the Google payload.
+- **Optional response cache:** `geocode.cache.enabled`, `geocode.cache.store`, and `geocode.cache.ttl` (env: `GEOCODE_CACHE_*`). Cache keys include query parameters and the configured default language.
+- **Batch geocoding:** `Geocode::addresses()` and `Geocode::latLngs()` using Laravel `Http::pool` for concurrent requests.
+- **Batch throttle:** `geocode.throttle.per_second` (env: `GEOCODE_THROTTLE_PER_SECOND`) to cap requests per second across batch chunks.
+- **Fluent query builder:** `Geocode::query()` with `region()`, `language()`, `components()`, and `bounds()` before `address()`, `latLng()`, or `placeId()`.
+- **Observability:** `GeocodingPerformed` event (params, result, duration, status, cached flag) and debug log line on every lookup.
+- **Configurable HTTP:** `geocode.timeout`, `geocode.retry.times`, and `geocode.retry.sleep` (env: `GEOCODE_TIMEOUT`, `GEOCODE_RETRY_*`).
+- **Static analysis:** PHPStan level 8 on `src/` with a dedicated CI job.
+
 ### Changed
 
-- **Breaking (3.0):** `Result` properties are now `readonly` (PHP 8.1+).
-- **Breaking (3.0):** `Result::$postalCode` is `?string`; when no postal code is present in the Google payload, the value is `null` instead of `false`.
+- **Breaking:** `Result` properties are now `readonly` (requires PHP **8.1+**).
+- **Breaking:** `Result::$postalCode` is `?string`; when no postal code is present in the Google payload, the value is `null` instead of `false`.
+- **Breaking:** Minimum PHP for new features is **8.1+** due to `readonly` on `Result` and `GeocodingPerformed`.
+- Config expanded with `timeout`, `retry`, `cache`, and `throttle` sections alongside existing `api_key` and `language` keys.
+
+### Fixed
+
+- Production warning when `geocode.api_key` is empty (logged once via the service container binding).
 
 ## [2.1.0] - 2026-08-11
 
 ### Added
 - Laravel 13 support.
-
 
 ## [2.0.0] - 2026-08-11
 
@@ -54,7 +72,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Raised `guzzlehttp/guzzle` to `^6.5.8` and dropped the unmaintained `~5.3` range.
 - **Final security release for the 1.x line** (then frozen). Residual Guzzle advisories that only have fixes in 7.x are addressed by upgrading to 2.0.
 
-[Unreleased]: https://github.com/jotafurtado/geocode/compare/2.1.0...HEAD
+[Unreleased]: https://github.com/jotafurtado/geocode/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/jotafurtado/geocode/compare/2.1.0...3.0.0
 [2.1.0]: https://github.com/jotafurtado/geocode/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/jotafurtado/geocode/compare/2.0.0-beta1...2.0.0
 [2.0.0-beta1]: https://github.com/jotafurtado/geocode/compare/1.5.0...2.0.0-beta1

@@ -4,17 +4,17 @@ namespace Jcf\Geocode;
 
 class Result
 {
-    public float $latitude;
+    public readonly float $latitude;
 
-    public float $longitude;
+    public readonly float $longitude;
 
-    public string $formattedAddress;
+    public readonly string $formattedAddress;
 
-    public string $locationType;
+    public readonly string $locationType;
 
-    public string|false $postalCode;
+    public readonly ?string $postalCode;
 
-    public object $raw;
+    public readonly object $raw;
 
     public function __construct(object $response)
     {
@@ -28,7 +28,7 @@ class Result
         $this->postalCode = $this->extractPostalCode($result);
     }
 
-    private function extractPostalCode(object $result): string|false
+    private function extractPostalCode(object $result): ?string
     {
         foreach ($result->address_components ?? [] as $component) {
             if (isset($component->types) && in_array('postal_code', (array) $component->types, true)) {
@@ -36,6 +36,6 @@ class Result
             }
         }
 
-        return false;
+        return null;
     }
 }

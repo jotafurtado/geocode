@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Breaking (3.0):** `Result` properties are now `readonly` (PHP 8.1+).
+- **Breaking (3.0):** `Result::$postalCode` is `?string`; when no postal code is present in the Google payload, the value is `null` instead of `false`.
+
 ## [2.1.0] - 2026-08-11
 
 ### Added

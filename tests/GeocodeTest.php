@@ -4,6 +4,7 @@ namespace Jcf\Geocode\Tests;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Jcf\Geocode\Exceptions\EmptyArgumentsException;
 use Jcf\Geocode\Exceptions\GeocodingFailedException;
 use Jcf\Geocode\Facades\Geocode;
@@ -211,5 +212,58 @@ class GeocodeTest extends TestCase
             // Http::retry(2, ...) = two attempts total
             Http::assertSentCount(2);
         }
+    }
+
+    public function test_http_uses_configured_timeout_and_retry(): void
+    {
+        config([
+            'geocode.timeout' => 5,
+            'geocode.retry.times' => 1,
+            'geocode.retry.sleep' => 200,
+        ]);
+
+        Http::fake([
+            'maps.googleapis.com/*' => Http::response(['error' => 'boom'], 500),
+        ]);
+
+        try {
+            (new \Jcf\Geocode\Geocode)->address('1 Infinite Loop');
+            $this->fail('Expected GeocodingFailedException');
+        } catch (GeocodingFailedException $exception) {
+            Http::assertSentCount(1);
+        }
+    }
+
+    public function test_logs_warning_when_api_key_empty_in_production(): void
+    {
+        config([
+            'app.env' => 'production',
+            'geocode.api_key' => '',
+        ]);
+
+        $this->app->detectEnvironment(fn (): string => 'production');
+
+        Log::shouldReceive('warning')
+            ->once()
+            ->with('Google Geocoding API key is not configured.');
+
+        $this->app->forgetInstance('geocode');
+        $this->app->forgetInstance(\Jcf\Geocode\Geocode::class);
+
+        Http::fake([
+            'maps.googleapis.com/*' => Http::response([
+                'status' => 'OK',
+                'results' => [[
+                    'formatted_address' => '1 Infinite Loop, Cupertino, CA 95014, USA',
+                    'geometry' => [
+                        'location' => ['lat' => 37.331741, 'lng' => -122.0303329],
+                        'location_type' => 'ROOFTOP',
+                    ],
+                    'address_components' => [],
+                ]],
+            ], 200),
+        ]);
+
+        Geocode::address('1 Infinite Loop');
     }
 }

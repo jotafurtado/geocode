@@ -5,6 +5,7 @@ namespace Jcf\Geocode;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Jcf\Geocode\Exceptions\EmptyArgumentsException;
 use Jcf\Geocode\Exceptions\GeocodingFailedException;
 
@@ -18,6 +19,10 @@ class Geocode
     {
         $this->apiKey = $apiKey ?? (string) config('geocode.api_key', '');
         $this->language = $language ?? (string) config('geocode.language', '');
+
+        if (config('geocode.api_key') === '' && app()->environment('production')) {
+            Log::warning('Google Geocoding API key is not configured.');
+        }
     }
 
     public function address(string $address, array $params = []): ?Result
@@ -58,8 +63,11 @@ class Geocode
         }
 
         try {
-            $response = Http::timeout(10)
-                ->retry(2, 100)
+            $response = Http::timeout((int) config('geocode.timeout', 10))
+                ->retry(
+                    (int) config('geocode.retry.times', 2),
+                    (int) config('geocode.retry.sleep', 100)
+                )
                 ->get('https://maps.googleapis.com/maps/api/geocode/json', $params);
         } catch (ConnectionException|RequestException $exception) {
             throw new GeocodingFailedException($exception->getMessage(), 0, $exception);

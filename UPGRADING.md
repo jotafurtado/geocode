@@ -77,3 +77,29 @@ if ($result === null) {
     // not found / denied / quota / invalid request
 }
 ```
+
+## Upgrading from 2.x to 3.0
+
+### Requirements
+
+- PHP **8.1+** (`Result` uses `readonly` properties)
+
+### `Result::$postalCode`
+
+In 2.x, a missing postal code was represented as `false`. In 3.0 it is `null`:
+
+```php
+// 2.x
+if ($result->postalCode === false) {
+    // no postal code
+}
+
+// 3.0
+if ($result->postalCode === null) {
+    // no postal code
+}
+```
+
+### Immutable `Result`
+
+All `Result` properties are `readonly`. Assigning to them after construction will throw.

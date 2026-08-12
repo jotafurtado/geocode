@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Laravel 13 support.
+
+
 ## [2.0.0] - 2026-08-11
 
 ### Added
@@ -14,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Result` value object with property access (`latitude`, `longitude`, `formattedAddress`, `locationType`, `postalCode`, `raw`), incorporating the approach from PR #17 by @Niellles.
 - `GeocodingFailedException` for real HTTP/network failures.
 - orchestra/testbench test suite with `Http::fake` coverage for geocoding, reverse geocoding, Place ID lookup, custom params, retries, and the null/throw error model.
-- GitHub Actions CI matrix (Laravel 9–12 × compatible PHP, prefer-lowest/prefer-stable, `composer audit`, Pint).
+- GitHub Actions CI matrix (Laravel 9–13 × compatible PHP, prefer-lowest/prefer-stable, `composer audit`, Pint).
 - `UPGRADING.md` for the 1.x → 2.0 migration.
 
 ### Changed
@@ -35,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0-beta1] - 2026-08-11
 
 ### Added
-- Initial 2.x beta targeting Laravel 9–12 modernization.
+- Initial 2.x beta targeting Laravel 9–13 modernization.
 
 ## [1.5.0] - 2026-08-11
 

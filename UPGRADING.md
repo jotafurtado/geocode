@@ -3,7 +3,7 @@
 ## Requirements
 
 - PHP **8.0+**
-- Laravel **9–12**
+- Laravel **9–13**
 
 Laravel 4–8 users should stay on **1.5.0** (final 1.x security release) or upgrade the framework first.
 

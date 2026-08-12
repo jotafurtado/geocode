@@ -52,8 +52,16 @@ jobs:
             testbench: '^10.0'
             php: '8.4'
             stability: prefer-stable
-          - laravel: '^12.0'
-            testbench: '^10.0'
+          - laravel: '^13.25'
+            testbench: '^11.0'
+            php: '8.3'
+            stability: prefer-stable
+          - laravel: '^13.25'
+            testbench: '^11.0'
+            php: '8.4'
+            stability: prefer-stable
+          - laravel: '^13.25'
+            testbench: '^11.0'
             php: '8.3'
             stability: prefer-lowest
 
@@ -85,7 +93,7 @@ jobs:
       # Gate security on current Laravel + prefer-stable only.
       # prefer-lowest intentionally resolves old transitive deps with advisories.
       - name: Composer audit
-        if: matrix.laravel == '^12.0' && matrix.stability == 'prefer-stable'
+        if: contains(fromJSON('["^12.0","^13.25"]'), matrix.laravel) && matrix.stability == 'prefer-stable'
         run: composer audit --no-dev
 
       - name: Pint

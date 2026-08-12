@@ -4,6 +4,7 @@ namespace Jcf\Geocode;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Jcf\Geocode\Exceptions\EmptyArgumentsException;
@@ -54,12 +55,26 @@ class Geocode
 
     protected function lookup(array $params): ?Result
     {
-        if ($this->apiKey !== '') {
-            $params['key'] = $this->apiKey;
-        }
-
         if ($this->language !== '') {
             $params['language'] = $this->language;
+        }
+
+        if (! config('geocode.cache.enabled', false)) {
+            return $this->performLookup($params);
+        }
+
+        return Cache::store(config('geocode.cache.store'))
+            ->remember(
+                'geocode:'.md5(json_encode([$params, $this->language])),
+                (int) config('geocode.cache.ttl', 86400),
+                fn (): ?Result => $this->performLookup($params),
+            );
+    }
+
+    protected function performLookup(array $params): ?Result
+    {
+        if ($this->apiKey !== '') {
+            $params['key'] = $this->apiKey;
         }
 
         try {

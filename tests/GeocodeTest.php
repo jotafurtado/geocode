@@ -266,4 +266,94 @@ class GeocodeTest extends TestCase
 
         Geocode::address('1 Infinite Loop');
     }
+
+    public function test_result_exposes_rich_google_fields_when_present(): void
+    {
+        Http::fake([
+            'maps.googleapis.com/*' => Http::response([
+                'status' => 'OK',
+                'results' => [[
+                    'place_id' => 'ChIJN1t_tDeuEmsRUsoyG83frY4',
+                    'types' => ['street_address', 'subpremise'],
+                    'partial_match' => true,
+                    'plus_code' => [
+                        'compound_code' => 'GRV6+52 Sydney, New South Wales, Australia',
+                        'global_code' => '4RRGRV6+52',
+                    ],
+                    'formatted_address' => '48 Pirrama Rd, Pyrmont NSW 2009, Australia',
+                    'geometry' => [
+                        'location' => [
+                            'lat' => -33.866489,
+                            'lng' => 151.1958561,
+                        ],
+                        'location_type' => 'ROOFTOP',
+                        'viewport' => [
+                            'northeast' => [
+                                'lat' => -33.8652389802915,
+                                'lng' => 151.1971678802915,
+                            ],
+                            'southwest' => [
+                                'lat' => -33.8679360197085,
+                                'lng' => 151.1944699197085,
+                            ],
+                        ],
+                        'bounds' => [
+                            'northeast' => [
+                                'lat' => -33.8652389802915,
+                                'lng' => 151.1971678802915,
+                            ],
+                            'southwest' => [
+                                'lat' => -33.8679360197085,
+                                'lng' => 151.1944699197085,
+                            ],
+                        ],
+                    ],
+                    'address_components' => [],
+                ]],
+            ], 200),
+        ]);
+
+        $result = Geocode::address('48 Pirrama Rd, Pyrmont NSW 2009, Australia');
+
+        $this->assertInstanceOf(Result::class, $result);
+        $this->assertSame('ChIJN1t_tDeuEmsRUsoyG83frY4', $result->placeId);
+        $this->assertSame(['street_address', 'subpremise'], $result->types);
+        $this->assertTrue($result->partialMatch);
+        $this->assertSame('GRV6+52 Sydney, New South Wales, Australia', $result->plusCode->compound_code);
+        $this->assertSame('4RRGRV6+52', $result->plusCode->global_code);
+        $this->assertSame(-33.8652389802915, $result->viewport->northeast->lat);
+        $this->assertSame(151.1944699197085, $result->viewport->southwest->lng);
+        $this->assertSame(-33.8652389802915, $result->bounds->northeast->lat);
+        $this->assertSame(151.1944699197085, $result->bounds->southwest->lng);
+    }
+
+    public function test_result_exposes_null_for_absent_rich_fields(): void
+    {
+        Http::fake([
+            'maps.googleapis.com/*' => Http::response([
+                'status' => 'OK',
+                'results' => [[
+                    'formatted_address' => '1 Infinite Loop, Cupertino, CA 95014, USA',
+                    'geometry' => [
+                        'location' => [
+                            'lat' => 37.331741,
+                            'lng' => -122.0303329,
+                        ],
+                        'location_type' => 'ROOFTOP',
+                    ],
+                    'address_components' => [],
+                ]],
+            ], 200),
+        ]);
+
+        $result = Geocode::address('1 Infinite Loop');
+
+        $this->assertInstanceOf(Result::class, $result);
+        $this->assertNull($result->placeId);
+        $this->assertNull($result->types);
+        $this->assertNull($result->viewport);
+        $this->assertNull($result->bounds);
+        $this->assertNull($result->partialMatch);
+        $this->assertNull($result->plusCode);
+    }
 }

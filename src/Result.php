@@ -14,6 +14,19 @@ class Result
 
     public readonly ?string $postalCode;
 
+    public readonly ?string $placeId;
+
+    /** @var array<int, string>|null */
+    public readonly ?array $types;
+
+    public readonly ?object $viewport;
+
+    public readonly ?object $bounds;
+
+    public readonly ?bool $partialMatch;
+
+    public readonly ?object $plusCode;
+
     public readonly object $raw;
 
     public function __construct(object $response)
@@ -26,6 +39,12 @@ class Result
         $this->longitude = $result->geometry->location->lng;
         $this->locationType = $result->geometry->location_type;
         $this->postalCode = $this->extractPostalCode($result);
+        $this->placeId = $result->place_id ?? null;
+        $this->types = isset($result->types) ? (array) $result->types : null;
+        $this->viewport = $result->geometry->viewport ?? null;
+        $this->bounds = $result->geometry->bounds ?? null;
+        $this->partialMatch = $result->partial_match ?? null;
+        $this->plusCode = $result->plus_code ?? null;
     }
 
     private function extractPostalCode(object $result): ?string

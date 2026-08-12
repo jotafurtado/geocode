@@ -31,6 +31,21 @@ class Result
 
     public function __construct(object $response)
     {
+        /** @var object{results: non-empty-list<object{
+         *     formatted_address: string,
+         *     geometry: object{
+         *         location: object{lat: float, lng: float},
+         *         location_type: string,
+         *         viewport?: object,
+         *         bounds?: object
+         *     },
+         *     place_id?: string,
+         *     types?: list<string>,
+         *     partial_match?: bool,
+         *     plus_code?: object,
+         *     address_components?: list<object{types?: list<string>, long_name?: string}>
+         * }>} $response
+         */
         $result = $response->results[0];
 
         $this->raw = $result;
@@ -47,11 +62,14 @@ class Result
         $this->plusCode = $result->plus_code ?? null;
     }
 
+    /**
+     * @param  object{address_components?: list<object{types?: list<string>, long_name?: string}>}  $result
+     */
     private function extractPostalCode(object $result): ?string
     {
         foreach ($result->address_components ?? [] as $component) {
-            if (isset($component->types) && in_array('postal_code', (array) $component->types, true)) {
-                return $component->long_name;
+            if (isset($component->types) && in_array('postal_code', $component->types, true)) {
+                return $component->long_name ?? null;
             }
         }
 

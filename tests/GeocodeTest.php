@@ -247,6 +247,8 @@ class GeocodeTest extends TestCase
             ->once()
             ->with('Google Geocoding API key is not configured.');
 
+        Log::shouldReceive('debug')->once();
+
         $this->app->forgetInstance('geocode');
         $this->app->forgetInstance(\Jcf\Geocode\Geocode::class);
 

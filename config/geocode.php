@@ -13,4 +13,7 @@ return [
         'store' => env('GEOCODE_CACHE_STORE'),
         'ttl' => (int) env('GEOCODE_CACHE_TTL', 86400),
     ],
+    'throttle' => [
+        'per_second' => (int) env('GEOCODE_THROTTLE_PER_SECOND', 0),
+    ],
 ];

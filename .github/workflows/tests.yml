@@ -99,3 +99,27 @@ jobs:
       - name: Pint
         if: matrix.php != '8.0' && matrix.php != '8.1' && matrix.stability == 'prefer-stable'
         run: vendor/bin/pint --test
+
+  phpstan:
+    runs-on: ubuntu-latest
+
+    name: PHPStan / L^13.25 / PHP 8.3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: dom, curl, libxml, mbstring, zip
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+          composer require "laravel/framework:^13.25" "orchestra/testbench:^11.0" --no-interaction --no-update --no-security-blocking
+          composer update --prefer-stable --prefer-dist --no-interaction --no-security-blocking
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse --error-format=github

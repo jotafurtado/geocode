@@ -14,7 +14,7 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "João Carlos",
+            "name": "Jo\u00e3o Carlos",
             "email": "jotacfurtado@gmail.com"
         }
     ],
@@ -29,6 +29,7 @@
         "guzzlehttp/guzzle": "^7.5",
         "laravel/pint": "^1.0",
         "orchestra/testbench": "^7.0|^8.0|^9.0|^10.0|^11.0",
+        "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^9.5|^10.0|^11.0"
     },
     "autoload": {
@@ -53,7 +54,8 @@
     },
     "scripts": {
         "test": "phpunit",
-        "format": "pint"
+        "format": "pint",
+        "analyse": "phpstan analyse --error-format=github"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,

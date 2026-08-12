@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-08-11
+
 ### Added
 - Laravel 13 support.
 
@@ -47,7 +49,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Raised `guzzlehttp/guzzle` to `^6.5.8` and dropped the unmaintained `~5.3` range.
 - **Final security release for the 1.x line** (then frozen). Residual Guzzle advisories that only have fixes in 7.x are addressed by upgrading to 2.0.
 
-[Unreleased]: https://github.com/jotafurtado/geocode/compare/2.0.0...HEAD
+[Unreleased]: https://github.com/jotafurtado/geocode/compare/2.1.0...HEAD
+[2.1.0]: https://github.com/jotafurtado/geocode/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/jotafurtado/geocode/compare/2.0.0-beta1...2.0.0
 [2.0.0-beta1]: https://github.com/jotafurtado/geocode/compare/1.5.0...2.0.0-beta1
 [1.5.0]: https://github.com/jotafurtado/geocode/compare/1.4.0...1.5.0

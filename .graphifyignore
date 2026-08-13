@@ -1,0 +1,6 @@
+/vendor/
+/graphify-out/
+/.phpunit.cache/
+composer.phar
+composer.lock
+.DS_Store

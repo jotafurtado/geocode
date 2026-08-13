@@ -1,0 +1,12 @@
+parameters:
+    level: 8
+    paths:
+        - src
+    bootstrapFiles:
+        - vendor/autoload.php
+    excludePaths:
+        - vendor
+    ignoreErrors:
+        -
+            message: '#Dead catch - Illuminate\\Http\\Client\\(ConnectionException|RequestException) is never thrown in the try block\.#'
+            path: src/Geocode.php
